@@ -1,0 +1,17 @@
+#!/bin/bash
+for i in $* ; do
+	eval "cat patch.$i | patch -p0 wireworld-original.c"
+done
+
+if ! eval "gcc -c wireworld-original.c"; then 
+	for i in $* ; do
+		eval "cat patch.$i | patch -p0 -R wireworld-original.c"
+	done
+	exit 1
+fi
+
+for i in $* ; do
+	eval "cat patch.$i | patch -p0 -R wireworld-original.c"
+done
+exit 0
+
